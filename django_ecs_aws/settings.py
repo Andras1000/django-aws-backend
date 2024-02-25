@@ -24,12 +24,12 @@ env = environ.Env()
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g0-+7y2_q0yu+fwbi!g@6-u9#e^m%tz2g!k&8tjp7psnn+!ni8'
+SECRET_KEY = env("SECRET_KEY", default="django-insecure-KRcMe1U9zoco3ybRtmXLSlKHj2eFtWSPRGVvvpqltCw")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG", default=True)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_ecs_aws.middleware.health_check_middleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
