@@ -15,5 +15,9 @@ aws ecs wait tasks-stopped --cluster prod --tasks "${MIGRATION_TASK_ARN}"
 
 echo "Updating web..."
 aws ecs update-service --cluster prod --service prod-backend-web --force-new-deployment --query "service.serviceName"  --output json
+echo "Updating worker..."
+aws ecs update-service --cluster prod --service prod-backend-worker --force-new-deployment --query "service.serviceName"  --output json
+echo "Updating beat..."
+aws ecs update-service --cluster prod --service prod-backend-beat --force-new-deployment --query "service.serviceName"  --output json
 
 echo "Done!"
