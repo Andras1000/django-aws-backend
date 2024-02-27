@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+from datetime import timedelta
 
 import environ
 from pathlib import Path
@@ -81,6 +82,19 @@ WSGI_APPLICATION = 'django_ecs_aws.wsgi.application'
 
 DATABASES = {
     'default': env.db(default="postgresql://postgres:postgres@127.0.0.1:5433/django_aws")
+}
+
+
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="redis://localhost:6379/0")
+CELERY_TASK_DEFAULT_QUEUE = env("CELERY_TASK_DEFAULT_QUEUE", default="default")
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    "region": env ("AWS_REGION", default="eu-west-1"),
+}
+CELERY_BEAT_SCHEDULE = {
+    "beat_task": {
+        "task": "django_ecs_aws.tasks.beat_task",
+        "schedule": timedelta(minutes=1),
+    }
 }
 
 
