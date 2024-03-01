@@ -31,6 +31,7 @@ SECRET_KEY = env("SECRET_KEY", default="django-insecure-KRcMe1U9zoco3ybRtmXLSlKH
 DEBUG = env("DEBUG", default=True)
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
+CSRF_TRUSTED_ORIGINS = [f"https://{env("ALLOWED_HOSTS", default='*.eu-west-1.elb.amazonaws.com')}"]
 
 
 # Application definition
