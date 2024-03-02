@@ -1,6 +1,9 @@
 # Minimal Django Backend
 
-This is a minimal Django backend that also includes a Dockerfile.
+This is a Django backend skelenton with 
+- Celery beat/worker 
+- S3 static file storage
+- Dockerfile
 
 ## How to run (Docker)
 
