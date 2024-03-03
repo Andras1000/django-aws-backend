@@ -1,6 +1,37 @@
 version: "3.1"
 
 services:
+  builder:
+    build: .
+    image: app
+
+  web:
+    image: app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/django_aws
+    depends_on:
+      - migration
+      - postgres
+      - redis
+
+  migration:
+    image: app
+    command: python manage.py migrate
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/django_aws
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      builder:
+        condition: service_completed_successfully
+
   postgres:
     image: "postgres:14"
     ports:
@@ -8,8 +39,17 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "django_aws"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      retries: 5
   redis:
     image: redis
     container_name: redis
     ports:
       - "6379:6379"
+
+volumes:
+  postgres_data:

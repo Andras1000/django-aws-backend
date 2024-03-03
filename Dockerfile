@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 python:3.12.2-bullseye
+FROM python:3.12.2-bullseye
 
 # Open http port
 EXPOSE 8000
