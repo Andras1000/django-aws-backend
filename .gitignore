@@ -1,6 +1,7 @@
 .venv/
 db.sqlite3
 __pycache__
+celerybeat-schedule
 celerybeat-schedule.db
 .DS_Store
 media/

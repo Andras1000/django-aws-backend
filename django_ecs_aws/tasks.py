@@ -10,6 +10,7 @@ def web_task() -> None:
     time.sleep(10)
     logging.info("Finished web task.")
 
+
 @celery_app.app.task()
 def beat_task() -> None:
     logging.info("Starting beat task...")
